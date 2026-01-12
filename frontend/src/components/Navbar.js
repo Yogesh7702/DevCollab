@@ -1,38 +1,60 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
- function Navbar() {
-    return (
-        <nav className='navbar navbar-expand-lg navbar-light bg-white shadow-sm'>
-            <div className='container'>
-                
-                <a className='navbar-brand fw-bold' href = "/">
-                    DevCollab
-                </a>
+function Navbar() {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-                <button 
-                   className='navbar-toggler'
-                   type = "button"
-                   data-bs-toggle = "collapse"
-                   data-bs-target = "#devcollabNavbar"
-                   >
-                    <span className='navbar-toggler-icon'></span>
-                   </button>
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
-                   <div className='collapse navbar-collapse' id = "devcollabNavbar">
-                    <div className = "ms-auto d-flex gap-2 mt-3 mt-lg-0">
-                        <button className='btn btn-outline-primary'>
-                            Login
-                        </button>
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div className="container">
+        <a className="navbar-brand fw-bold" href="/">
+          DevCollab
+        </a>
 
-                        <button className='btn btn-primary'>
-                            Sign Up
-                        </button>
-                    </div>
-                   </div>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#devcollabNavbar"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-            </div>
-        </nav>
-    );
- }
+        <div className="collapse navbar-collapse" id="devcollabNavbar">
+          <div className="ms-auto d-flex gap-2 mt-3 mt-lg-0">
+            {user ? (
+              <>
+                <Link to="/dashboard" className="btn btn-outline-primary">
+                  Login
+                </Link>
 
- export default Navbar;
+                <button className="btn btn-danger" onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="btn btn-outline-primary">
+                  Login
+                </Link>
+
+                <Link to="/signup" className="btn btn-outline-primary">
+                  Signup
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;

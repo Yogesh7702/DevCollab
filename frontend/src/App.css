@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+
+.nav-pills .nav-link.active {
+  background-color: #6366f1 !important;
+  color: #fff !important;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #fff;
+}
