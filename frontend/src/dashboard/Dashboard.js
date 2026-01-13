@@ -10,7 +10,10 @@ function Dashboard() {
 
       <div className="flex-grow-1">
         <DashboardHeader />
-        <DashboardHome />
+        
+        <div className="p-4" style={{ minHeight: "100vh", background: "#f8fafc" }}>
+          <Outlet />
+        </div>
       </div>
     </div>
   );
