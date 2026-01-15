@@ -1,17 +1,37 @@
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import AuthContext from '../context/AuthContext';
+import React, {useState} from "react";
+import{Link, useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { loginUser } from "../api/authapi";
+import { loginSuccess } from "../../redux/authSlice";
 
 function Login() {
-   const { login } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [error, setError] = useState("")
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
-    navigate('/dashboard');
+    setError("");
+
+    try{
+      const data = await loginUser(email, password);
+
+      dispatch(
+        loginSuccess({
+          user: data.user,
+          token: data.token,
+        })
+      );
+
+      navigate("/dashboard");
+    } catch(err) {
+      setError(err.response?.data?.message || "Login failed");
+    }
   };
 
   return (
