@@ -8,20 +8,16 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 function App() {
   return (
     <Routes>
+      
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoutes>
-            <Dashboard />
-          </ProtectedRoutes>
-        }
-      >
+      <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<DashboardHome />} />
         <Route path="projects" element={<Projects />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
-
     </Routes>
   );
 }

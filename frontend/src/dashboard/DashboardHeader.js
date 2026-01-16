@@ -1,8 +1,9 @@
-import React , {useContext} from "react";
-import AuthContext  from "../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/authSlice";
 
 function DashboardHeader() {
-    const {user} = useContext(AuthContext);
+const dispatch = useDispatch();
+const {user} = useSelector((state) => state.auth);
 
     return (
         <div className="d-flex justify-content-between align-items-center border-bottom p-3">
