@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import{Link, useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { loginUser } from "../api/authapi";
-import { loginSuccess } from "../../redux/authSlice";
+import { loginApi } from "../api/authapi";
+import { logout } from "../redux/authSlice";
 
 function Login() {
   const dispatch = useDispatch();
@@ -19,10 +19,10 @@ function Login() {
     setError("");
 
     try{
-      const data = await loginUser(email, password);
+      const data = await loginAPI({email, password});
 
       dispatch(
-        loginSuccess({
+        logout({
           user: data.user,
           token: data.token,
         })

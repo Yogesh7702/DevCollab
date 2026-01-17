@@ -4,6 +4,8 @@ import DashboardHome from "./dashboard/DashboardHome";
 import Projects from "./dashboard/Projects";
 import Profile from "./dashboard/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -12,7 +14,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      <Route path="/dashboard" element={<DashboardLayout />}>
+      <Route path="/dashboard" element={<Dashboard />}>
         <Route index element={<DashboardHome />} />
         <Route path="projects" element={<Projects />} />
         <Route path="profile" element={<Profile />} />

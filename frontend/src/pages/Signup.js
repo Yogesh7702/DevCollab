@@ -1,19 +1,38 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import AuthContext from '../context/AuthContext';
+import { signupApi } from "../api/authapi";
+import { logout } from "../redux/authSlice";
 
 function Signup() {
-  const {login} = useContext(AuthContext);
-const [email, setEmail] = useState("");
-const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-   const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(email);        // simulate signup
-    navigate('/dashboard'); // redirect
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const data = await signupApi({ name, email, password });
+
+      // 🔹 Redux me user set
+      dispatch(logout(data.user));
+
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.message || "Signup failed");
+    }
   };
 
   return (
@@ -26,7 +45,7 @@ const navigate = useNavigate();
       >
         <div
           className="card p-4 shadow-sm"
-          style={{ maxwidth: "400px", width: "100%" }}
+          style={{ maxWidth: "400px", width: "100%" }}
         >
           <h2 className="text-center mb-4">Sign Up</h2>
 
@@ -41,6 +60,7 @@ const navigate = useNavigate();
                 id="name"
                 placeholder="Enter full name"
                 required
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
 
@@ -53,20 +73,42 @@ const navigate = useNavigate();
                 className="form-control"
                 id="email"
                 placeholder="Enter email"
+                required
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
-              <input type="password" className="form-control" id="password" placeholder="Enter password" />
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Enter password"
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
 
-                        <div className="mb-3">
-              <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-              <input type="password" className="form-control" id="confirmPassword" placeholder="Confirm password" />
+            <div className="mb-3">
+              <label htmlFor="confirmPassword" className="form-label">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="confirmPassword"
+                placeholder="Confirm password"
+                required
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
             </div>
 
-             <button type="submit" className="btn btn-primary w-100">Sign Up</button>
+            <button type="submit" className="btn btn-primary w-100">
+              Sign Up
+            </button>
           </form>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects } from "../redux/project/projectActions";
+import { fetchProjects } from "../redux/project/projectActions.js";
 
 function Projects() {
   const dispatch = useDispatch();
